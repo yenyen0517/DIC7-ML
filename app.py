@@ -248,10 +248,10 @@ with st.expander("📋  Phase 1 · Business Understanding", expanded=True):
 - R² close to 1.0 for high signal-to-noise data
 """)
     with c2:
-        st.markdown("""
+        st.markdown(r"""
 **Data generation formula**
 
-$$y = ax + b + \\varepsilon$$
+$$y = ax + b + \varepsilon$$
 
 | Symbol | Domain |
 |--------|--------|
@@ -294,11 +294,11 @@ with st.expander("🔍  Phase 2 · Data Understanding", expanded=True):
         ax_raw.tick_params(colors="#aaa")
         for sp in ax_raw.spines.values(): sp.set_edgecolor("#333")
         fig_raw.tight_layout()
-        st.pyplot(fig_raw, use_container_width=True)
+        st.pyplot(fig_raw, width="stretch")
         plt.close(fig_raw)
     with c2:
         st.markdown("**Descriptive statistics**")
-        st.dataframe(df.describe().round(3), use_container_width=True)
+        st.dataframe(df.describe().round(3), width="stretch")
 
     st.markdown("**True parameters (hidden from model)**")
     pc1, pc2, pc3 = st.columns(3)
@@ -355,7 +355,7 @@ with st.expander("🤖  Phase 4 · Modelling", expanded=True):
 
     c1, c2 = st.columns([1.4, 1])
     with c1:
-        st.pyplot(make_scatter_plot(res, show_train, show_test), use_container_width=True)
+        st.pyplot(make_scatter_plot(res, show_train, show_test), width="stretch")
     with c2:
         st.markdown("**Learned vs True parameters**")
         param_data = {
@@ -365,12 +365,12 @@ with st.expander("🤖  Phase 4 · Modelling", expanded=True):
             "Error":   [f"{abs(res['a_true']-res['a_learned']):.4f}",
                         f"{abs(res['b_true']-res['b_learned']):.4f}"],
         }
-        st.dataframe(pd.DataFrame(param_data), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(param_data), width="stretch", hide_index=True)
 
-        st.markdown(f"""
+        st.markdown(fr"""
 **Model equation** (original scale)
 
-$$\\hat{{y}} = {res['a_learned']:.4f}\\, x + {res['b_learned']:.4f}$$
+$$\hat{y} = {res['a_learned']:.4f}\, x + {res['b_learned']:.4f}$$
 
 **sklearn coefficients** (scaled space)
 
@@ -402,7 +402,7 @@ with st.expander("📊  Phase 5 · Evaluation", expanded=True):
             <div class="value">{val}</div></div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    st.pyplot(make_residual_plot(res), use_container_width=True)
+    st.pyplot(make_residual_plot(res), width="stretch")
     plt.close("all")
 
     # Interpretation
@@ -450,7 +450,7 @@ with st.expander("🚀  Phase 6 · Deployment", expanded=True):
                 xs_s = res["scaler"].transform(xs)
                 preds = res["model"].predict(xs_s)
                 batch_df = pd.DataFrame({"x": xs.ravel(), "ŷ": preds.round(4)})
-                st.dataframe(batch_df, use_container_width=True, hide_index=True)
+                st.dataframe(batch_df, width="stretch", hide_index=True)
             except ValueError:
                 st.error("Please enter valid numbers, one per line.")
 
